@@ -79,7 +79,10 @@ contract AgentPassVerifier {
         }
 
         // ---- 2. Build challenge and recover signer ----------------------------
-        bytes32 challenge = keccak256(abi.encodePacked(agentId, service, nonce, timestamp));
+        // Use abi.encode (not encodePacked) to prevent hash collisions between
+        // dynamic-length fields (service, nonce). encodePacked("ab","cdef") ==
+        // encodePacked("abc","def"), which would allow forged challenges.
+        bytes32 challenge = keccak256(abi.encode(agentId, service, nonce, timestamp));
         address recovered = _recoverSigner(challenge, signature);
         if (recovered == address(0)) {
             return (false, address(0), 0);

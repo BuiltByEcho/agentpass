@@ -37,13 +37,15 @@ contract AgentPassVerifierTest is Test {
     // -------------------------------------------------------------------------
 
     /// @dev Build the challenge hash exactly as AgentPassVerifier does.
+    ///      Uses abi.encode (not encodePacked) to match the fix for hash-collision
+    ///      between dynamic-length fields.
     function _buildChallenge(
         uint256 agentId,
         string memory service,
         string memory nonce,
         uint256 timestamp
     ) internal pure returns (bytes32) {
-        return keccak256(abi.encodePacked(agentId, service, nonce, timestamp));
+        return keccak256(abi.encode(agentId, service, nonce, timestamp));
     }
 
     /// @dev Wrap a raw hash with the Ethereum signed message prefix and sign it.
