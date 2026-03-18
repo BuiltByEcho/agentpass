@@ -2,8 +2,9 @@
   "base": {
     "chainId": 8453,
     "AgentPassRegistry": "0x159E776Dc47C745a4a78857C3ca37CdEEbbb8C84",
-    "AgentPassVerifier": "0x4D404276932dFf3b55C20F8e688cAE4DF0005027",
+    "AgentPassVerifier": "0xC3b6DE35Ec3FED600c18768bF16198b531e26B50",
     "deployedAt": "2026-03-18",
-    "deployedBy": "0x5Bef6Ed59543Fe90A546F54d278Be193eD2746A7"
+    "deployedBy": "0x5Bef6Ed59543Fe90A546F54d278Be193eD2746A7",
+    "notes": "AgentPassVerifier v2 — patched abi.encodePacked collision (Slither audit)"
   }
 }
