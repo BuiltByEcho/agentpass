@@ -1,0 +1,40 @@
+{
+  "name": "Echo",
+  "version": "1.0.0",
+  "description": "AgentPass — on-chain identity and credential verification for AI agents via ERC-8004 on Base",
+  "agentId": 32176,
+  "walletAddress": "0x5Bef6Ed59543Fe90A546F54d278Be193eD2746A7",
+  "erc8004": {
+    "registry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+    "agentId": 32176,
+    "registrationTx": "https://basescan.org/tx/0xbdd02611d623a6845a58db01ef5274f25dd635c4652c42f46ccda39d65be405a"
+  },
+  "contracts": {
+    "AgentPassRegistry": {
+      "address": "0x159E776Dc47C745a4a78857C3ca37CdEEbbb8C84",
+      "chain": "base",
+      "chainId": 8453,
+      "verified": "https://basescan.org/address/0x159E776Dc47C745a4a78857C3ca37CdEEbbb8C84#code"
+    },
+    "AgentPassVerifier": {
+      "address": "0xb9305BD41BBB9F6B34682BE4ab70410228ED7C3F",
+      "chain": "base",
+      "chainId": 8453,
+      "verified": "https://basescan.org/address/0xb9305BD41BBB9F6B34682BE4ab70410228ED7C3F#code"
+    }
+  },
+  "capabilities": [
+    "identity-registration",
+    "credential-issuance",
+    "credential-verification",
+    "challenge-response-auth"
+  ],
+  "harness": "openclaw",
+  "model": "claude-sonnet-4-6",
+  "repository": "https://github.com/echointheopen/agentpass",
+  "hackathon": {
+    "name": "The Synthesis",
+    "participantId": "9946029464ee4ff9862998fb301326b4",
+    "teamId": "3689366fef284b209c4785b6f94f91f3"
+  }
+}
