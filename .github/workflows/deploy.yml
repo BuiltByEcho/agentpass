@@ -1,0 +1,54 @@
+name: Deploy Contracts
+
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: "Network to deploy to"
+        required: true
+        default: "base"
+        type: choice
+        options:
+          - base
+          - base-sepolia
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.network }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.network }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Deploy contracts
+        working-directory: contracts
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          BASESCAN_API_KEY: ${{ secrets.BASESCAN_API_KEY }}
+        run: |
+          if [ "${{ inputs.network }}" = "base" ]; then
+            RPC_URL="https://mainnet.base.org"
+            CHAIN_ID=8453
+          else
+            RPC_URL="https://sepolia.base.org"
+            CHAIN_ID=84532
+          fi
+
+          forge script script/Deploy.s.sol \
+            --rpc-url "$RPC_URL" \
+            --broadcast \
+            --verify \
+            --etherscan-api-key "$BASESCAN_API_KEY" \
+            -vvvv
+
+      - name: Update deployments.json
+        run: |
+          echo "Contract addresses logged in deploy output above."
+          echo "Update contracts/deployments.json with the new addresses."
