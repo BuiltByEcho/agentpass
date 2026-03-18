@@ -33,10 +33,12 @@ async function main() {
   // Step 2: Sign challenge
   console.log('\n[2/3] Signing challenge...');
   // Must match abi.encode in AgentPassVerifier (not encodePacked — fixes hash collision audit finding)
+  // Service name must match what the server passes to AgentPassVerifier.verify()
+  const SERVICE = process.env.SERVICE ?? 'agentpass-demo'
   const challenge = keccak256(
     encodeAbiParameters(
       parseAbiParameters('uint256, string, string, uint256'),
-      [ECHO_AGENT_ID, 'agentpass-demo', nonce, BigInt(timestamp)],
+      [ECHO_AGENT_ID, SERVICE, nonce, BigInt(timestamp)],
     ),
   );
   const signature = await account.signMessage({
