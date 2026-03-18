@@ -26,7 +26,7 @@ async function main() {
   // Step 1: Get challenge
   console.log('\n[1/3] Getting challenge...');
   const challengeRes = await fetch(`${SERVER_URL}/api/challenge`);
-  const { nonce, timestamp } = await challengeRes.json() as { nonce: string; timestamp: number };
+  const { nonce, timestamp, token: nonceToken } = await challengeRes.json() as { nonce: string; timestamp: number; token?: string };
   console.log(`  nonce: ${nonce}`);
   console.log(`  timestamp: ${timestamp}`);
 
@@ -53,6 +53,7 @@ async function main() {
       agentId: ECHO_AGENT_ID.toString(),
       agentAddress: account.address,
       nonce,
+      token: nonceToken,
       signature,
     }),
   });
