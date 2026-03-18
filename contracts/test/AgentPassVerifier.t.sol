@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity 0.8.24;
 
 import {Test} from "forge-std/Test.sol";
+import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 import {AgentPassRegistry} from "../src/AgentPassRegistry.sol";
 import {AgentPassVerifier} from "../src/AgentPassVerifier.sol";
 
@@ -48,15 +49,13 @@ contract AgentPassVerifierTest is Test {
         return keccak256(abi.encode(agentId, service, nonce, timestamp));
     }
 
-    /// @dev Wrap a raw hash with the Ethereum signed message prefix and sign it.
+    /// @dev Wrap a raw hash with the Ethereum signed message prefix (OZ style) and sign it.
     function _sign(uint256 privateKey, bytes32 challenge)
         internal
-        pure
+        view
         returns (bytes memory sig)
     {
-        bytes32 ethSignedHash = keccak256(
-            abi.encodePacked("\x19Ethereum Signed Message:\n32", challenge)
-        );
+        bytes32 ethSignedHash = MessageHashUtils.toEthSignedMessageHash(challenge);
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, ethSignedHash);
         sig = abi.encodePacked(r, s, v);
     }

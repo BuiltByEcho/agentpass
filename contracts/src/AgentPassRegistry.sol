@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity 0.8.24;
 
 /// @title AgentPassRegistry
 /// @notice Registry for AgentPass agent identities and verifiable credentials.
@@ -58,7 +58,7 @@ contract AgentPassRegistry {
     /// @param expiresAt   Expiry timestamp (0 = never expires).
     event CredentialIssued(
         address indexed agentWallet,
-        string scope,
+        string indexed scope,
         address indexed issuer,
         uint256 expiresAt
     );
@@ -69,7 +69,7 @@ contract AgentPassRegistry {
     /// @param issuer      The agent wallet that performed the revocation.
     event CredentialRevoked(
         address indexed agentWallet,
-        string scope,
+        string indexed scope,
         address indexed issuer
     );
 
