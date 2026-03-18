@@ -6,7 +6,7 @@
  */
 import 'dotenv/config';
 import { privateKeyToAccount } from 'viem/accounts';
-import { keccak256, encodePacked, toBytes } from 'viem';
+import { keccak256, encodeAbiParameters, parseAbiParameters, toBytes } from 'viem';
 
 const SERVER_URL = process.env.SERVER_URL ?? 'http://localhost:3000';
 
@@ -32,9 +32,10 @@ async function main() {
 
   // Step 2: Sign challenge
   console.log('\n[2/3] Signing challenge...');
+  // Must match abi.encode in AgentPassVerifier (not encodePacked — fixes hash collision audit finding)
   const challenge = keccak256(
-    encodePacked(
-      ['uint256', 'string', 'string', 'uint256'],
+    encodeAbiParameters(
+      parseAbiParameters('uint256, string, string, uint256'),
       [ECHO_AGENT_ID, 'agentpass-demo', nonce, BigInt(timestamp)],
     ),
   );
