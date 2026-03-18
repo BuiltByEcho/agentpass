@@ -25,7 +25,7 @@ async function main() {
 
   // Step 1: Get challenge
   console.log('\n[1/3] Getting challenge...');
-  const challengeRes = await fetch(`${SERVER_URL}/challenge`);
+  const challengeRes = await fetch(`${SERVER_URL}/api/challenge`);
   const { nonce, timestamp } = await challengeRes.json() as { nonce: string; timestamp: number };
   console.log(`  nonce: ${nonce}`);
   console.log(`  timestamp: ${timestamp}`);
@@ -46,7 +46,7 @@ async function main() {
 
   // Step 3: Authenticate
   console.log('\n[3/3] Authenticating...');
-  const authRes = await fetch(`${SERVER_URL}/auth`, {
+  const authRes = await fetch(`${SERVER_URL}/api/auth`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -70,7 +70,7 @@ async function main() {
 
   // Step 4: Access protected resource
   console.log('\n[✓] Accessing protected resource...');
-  const protectedRes = await fetch(`${SERVER_URL}/protected`, {
+  const protectedRes = await fetch(`${SERVER_URL}/api/protected`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await protectedRes.json();
