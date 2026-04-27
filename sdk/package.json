@@ -4,7 +4,7 @@
   "description": "AgentPass — on-chain identity verification SDK for AI agents (ERC-8004)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BuiltByEcho/agentpass.git",
+    "url": "git+https://github.com/BuiltByEcho/agentpass.git",
     "directory": "sdk"
   },
   "bugs": {
@@ -37,8 +37,7 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "scripts": {
     "build": "rm -rf dist && tsup src/index.ts --format esm,cjs && tsc --emitDeclarationOnly",
