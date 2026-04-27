@@ -37,7 +37,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs",
+    "build": "rm -rf dist && tsup src/index.ts --format esm,cjs && tsc --emitDeclarationOnly",
     "build:types": "tsc --emitDeclarationOnly",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
