@@ -1,7 +1,7 @@
 {
-  "name": "@agentpass/sdk",
+  "name": "@builtbyecho/agentpass",
   "version": "0.1.1",
-  "description": "AgentPass SDK — on-chain identity verification for AI agents (ERC-8004)",
+  "description": "AgentPass — on-chain identity verification SDK for AI agents (ERC-8004)",
   "repository": {
     "type": "git",
     "url": "https://github.com/echointheopen/agentpass.git",

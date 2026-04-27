@@ -67,11 +67,11 @@ event CredentialRevoked(address indexed agentWallet, string scope, address index
 ### For Agents
 
 ```bash
-npm install @agentpass/sdk
+npm install @builtbyecho/agentpass
 ```
 
 ```typescript
-import { AgentPassClient } from '@agentpass/sdk';
+import { AgentPassClient } from '@builtbyecho/agentpass';
 
 const client = new AgentPassClient({
   rpcUrl: 'https://mainnet.base.org',
@@ -96,7 +96,7 @@ const { token } = await fetch('https://service.com/auth', {
 ### For Services
 
 ```typescript
-import { AgentPassClient } from '@agentpass/sdk';
+import { AgentPassClient } from '@builtbyecho/agentpass';
 
 const client = new AgentPassClient({
   rpcUrl: 'https://mainnet.base.org',
