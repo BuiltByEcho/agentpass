@@ -1,9 +1,9 @@
-import { createPublicClient, createWalletClient, http, encodeAbiParameters, keccak256, toBytes, type Address, type Hash, type TransactionReceipt, type WalletClient, type PublicClient, type Chain } from 'viem';
+import { createPublicClient, createWalletClient, http, encodeAbiParameters, keccak256, toBytes, type Address, type Hash, type WalletClient, type PublicClient, type Chain } from 'viem';
 import { base } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 import { REGISTRY_ABI, VERIFIER_ABI } from './abi.js';
 
-export type { Address, Hash, TransactionReceipt } from 'viem';
+export type { Address, Hash } from 'viem';
 export { REGISTRY_ABI, VERIFIER_ABI } from './abi.js';
 
 export interface AgentPassConfig {
@@ -47,7 +47,7 @@ export class AgentPassClient {
     this.publicClient = createPublicClient({
       chain,
       transport: http(config.rpcUrl),
-    });
+    }) as PublicClient;
 
     if (config.privateKey) {
       this.account = privateKeyToAccount(config.privateKey);
@@ -70,10 +70,11 @@ export class AgentPassClient {
   /**
    * Register an ERC-8004 agent on-chain.
    * @param agentId — The agent's ERC-8004 identifier
+   * @returns Transaction hash
    */
-  async register(agentId: bigint): Promise<TransactionReceipt> {
+  async register(agentId: bigint): Promise<Hash> {
     this.assertWallet();
-    const hash = await this.walletClient!.writeContract({
+    return this.walletClient!.writeContract({
       address: this.registryAddress,
       abi: REGISTRY_ABI,
       functionName: 'register',
@@ -81,7 +82,6 @@ export class AgentPassClient {
       account: this.account!,
       chain: null,
     });
-    return this.publicClient.waitForTransactionReceipt({ hash });
   }
 
   /**
@@ -89,14 +89,15 @@ export class AgentPassClient {
    * @param agentAddress — The agent's wallet address
    * @param scope — The credential scope (e.g., "can-read", "can-write")
    * @param expiresAt — Unix timestamp when credential expires (0 = never)
+   * @returns Transaction hash
    */
   async issueCredential(
     agentAddress: Address,
     scope: string,
     expiresAt: number = 0,
-  ): Promise<TransactionReceipt> {
+  ): Promise<Hash> {
     this.assertWallet();
-    const hash = await this.walletClient!.writeContract({
+    return this.walletClient!.writeContract({
       address: this.registryAddress,
       abi: REGISTRY_ABI,
       functionName: 'issueCredential',
@@ -104,7 +105,6 @@ export class AgentPassClient {
       account: this.account!,
       chain: null,
     });
-    return this.publicClient.waitForTransactionReceipt({ hash });
   }
 
   /**
@@ -116,7 +116,7 @@ export class AgentPassClient {
       abi: REGISTRY_ABI,
       functionName: 'hasCredential',
       args: [agentAddress, scope],
-    });
+    }) as Promise<boolean>;
   }
 
   /**
@@ -141,12 +141,12 @@ export class AgentPassClient {
       abi: REGISTRY_ABI,
       functionName: 'getAgentWallet',
       args: [agentId],
-    });
+    }) as Promise<Address>;
   }
 
   /**
    * Sign an auth challenge to prove agent identity.
-   * The challenge is keccak256(agentId, service, nonce, timestamp).
+   * The challenge is keccak256(abi.encode(agentId, service, nonce, timestamp)).
    * @param agentId — The agent's ERC-8004 identifier
    * @param service — The service requesting authentication
    * @param nonce — Unique nonce from the service

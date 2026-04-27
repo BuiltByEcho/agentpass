@@ -12,7 +12,16 @@
   },
   "homepage": "https://useagentpass.com",
   "license": "MIT",
-  "keywords": ["agentpass", "erc-8004", "on-chain", "identity", "base", "viem", "agent", "ai"],
+  "keywords": [
+    "agentpass",
+    "erc-8004",
+    "on-chain",
+    "identity",
+    "base",
+    "viem",
+    "agent",
+    "ai"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -24,7 +33,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs",
     "build:types": "tsc --emitDeclarationOnly",
@@ -32,7 +43,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "viem": "^2.21.0"
+    "viem": "^2.48.4"
   },
   "devDependencies": {
     "tsup": "^8.0.0",
