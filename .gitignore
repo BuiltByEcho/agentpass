@@ -16,3 +16,10 @@ sdk/dist/
 
 # TypeScript
 *.tsbuildinfo
+# Build artifacts
+contracts/cache/
+contracts/out/
+demo-frame-check.png
+demo/node_modules/
+sdk/node_modules/
+sdk/dist/

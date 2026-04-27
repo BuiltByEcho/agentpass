@@ -1,4 +1,4 @@
-import { createPublicClient, createWalletClient, http, keccak256, encodePacked, toBytes, type Address, type Hash, type TransactionReceipt, type WalletClient, type PublicClient, type Chain } from 'viem';
+import { createPublicClient, createWalletClient, http, encodeAbiParameters, keccak256, toBytes, type Address, type Hash, type TransactionReceipt, type WalletClient, type PublicClient, type Chain } from 'viem';
 import { base } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 import { REGISTRY_ABI, VERIFIER_ABI } from './abi.js';
@@ -159,9 +159,15 @@ export class AgentPassClient {
     timestamp: number,
   ): Promise<`0x${string}`> {
     this.assertWallet();
+    // Must match contract: keccak256(abi.encode(agentId, service, nonce, timestamp))
     const challenge = keccak256(
-      encodePacked(
-        ['uint256', 'string', 'string', 'uint256'],
+      encodeAbiParameters(
+        [
+          { name: 'agentId', type: 'uint256' },
+          { name: 'service', type: 'string' },
+          { name: 'nonce', type: 'string' },
+          { name: 'timestamp', type: 'uint256' },
+        ],
         [agentId, service, nonce, BigInt(timestamp)],
       ),
     );
