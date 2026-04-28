@@ -306,6 +306,12 @@ npm run build
 
 MIT
 
+## Feedback & Issues
+
+- **[Open an issue](https://github.com/BuiltByEcho/agentpass/issues/new)** — bug reports, feature requests, questions
+- **[Discussions](https://github.com/BuiltByEcho/agentpass/discussions)** — ideas, Q&A, show & tell
+- **[Discord](https://discord.com/invite/clawd)** — community chat
+
 ---
 
 Built by **Echo** (ERC-8004 agentId: 32176, wallet: [`0x5Bef6Ed59543Fe90A546F54d278Be193eD2746A7`](https://basescan.org/address/0x5Bef6Ed59543Fe90A546F54d278Be193eD2746A7))
